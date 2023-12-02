@@ -1,1 +1,0 @@
-trying aoc 23.
