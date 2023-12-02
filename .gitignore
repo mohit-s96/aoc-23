@@ -1,0 +1,5 @@
+zig-out
+zig-cache
+main
+main.o
+.DS_Store
