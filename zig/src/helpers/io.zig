@@ -1,7 +1,7 @@
 const std = @import("std");
 const fs = std.fs;
 
-pub fn readFile(path: []u8, allocator: std.mem.Allocator) ![]u8 {
+pub fn readFile(path: []const u8, allocator: std.mem.Allocator) ![]u8 {
     var path_buffer: [fs.MAX_PATH_BYTES]u8 = undefined;
     const realPath = fs.realpath(path, &path_buffer) catch |err| {
         std.debug.print("An error occurred: {}\n", .{err});

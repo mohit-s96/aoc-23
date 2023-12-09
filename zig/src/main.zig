@@ -1,6 +1,7 @@
 const std = @import("std");
 const day1 = @import("day-1.zig");
 const io = @import("helpers/io.zig");
+const cli = @import("helpers/cli.zig");
 
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{ .safety = true }){};
@@ -8,28 +9,10 @@ pub fn main() !void {
 
     const allocator = gpa.allocator();
 
-    var args_it = std.process.args();
-    var found_f = false;
-    var f_arg: ?[]const u8 = null;
+    const argValue = cli.extractCliArg("-f");
+    if (argValue == null) std.process.exit(1);
 
-    while (args_it.next()) |arg| {
-        if (found_f) {
-            f_arg = arg;
-            break;
-        }
-        if (std.mem.eql(u8, arg, "-f")) {
-            found_f = true;
-        }
-    }
-
-    if (f_arg == null) std.process.exit(1);
-
-    const buffer: []u8 = try allocator.alloc(u8, f_arg.?.len);
-    defer allocator.free(buffer);
-
-    std.mem.copyForwards(u8, buffer, f_arg.?);
-
-    const contents = try io.readFile(buffer, allocator);
+    const contents = try io.readFile(argValue.?, allocator);
     defer allocator.free(contents);
     std.debug.print("{s}", .{contents});
     // var iter = std.mem.splitSequence(u8, file_buffer, "\n");
