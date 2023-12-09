@@ -22,7 +22,7 @@ pub fn main() !void {
         }
     }
 
-    if (f_arg == null) return;
+    if (f_arg == null) std.process.exit(1);
 
     const buffer: []u8 = try allocator.alloc(u8, f_arg.?.len);
     defer allocator.free(buffer);
